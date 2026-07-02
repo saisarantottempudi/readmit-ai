@@ -54,13 +54,14 @@ def reload_model() -> dict:
 
 @app.post("/predict", response_model=PredictionResponse)
 def predict(encounter: PatientEncounter) -> PredictionResponse:
-    if not store.ready:
+    model = store.model
+    if model is None:
         raise HTTPException(status_code=503, detail="No production model available")
 
     started = time.perf_counter()
     frame = encounter_frame(encounter)
-    score = float(store.model.predict_proba(frame)[0, 1])
-    factors = top_factors(store.model, frame)
+    score = float(model.predict_proba(frame)[0, 1])
+    factors = top_factors(model, frame)
     band = risk_band(score)
     LATENCY.observe(time.perf_counter() - started)
     PREDICTIONS.labels(band=band).inc()
@@ -70,6 +71,6 @@ def predict(encounter: PatientEncounter) -> PredictionResponse:
     return PredictionResponse(
         risk_score=round(score, 4),
         risk_band=band,
-        top_factors=[Factor(**f) for f in factors],
+        top_factors=[Factor(feature=str(f["feature"]), impact=float(f["impact"])) for f in factors],
         model_version=store.version,
     )

@@ -10,9 +10,7 @@ PROCESSED_DIR = DATA_DIR / "processed"
 REPORTS_DIR = Path(os.getenv("READMIT_REPORTS_DIR", PROJECT_ROOT / "reports"))
 SCORING_LOG = DATA_DIR / "scoring_log.parquet"
 
-MLFLOW_TRACKING_URI = os.getenv(
-    "MLFLOW_TRACKING_URI", f"sqlite:///{PROJECT_ROOT / 'mlflow.db'}"
-)
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", f"sqlite:///{PROJECT_ROOT / 'mlflow.db'}")
 MODEL_NAME = "readmit"
 PRODUCTION_ALIAS = "production"
 

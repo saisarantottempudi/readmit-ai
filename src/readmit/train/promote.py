@@ -22,6 +22,8 @@ def get_champion_auc(client: MlflowClient, model_name: str = MODEL_NAME) -> floa
         version = client.get_model_version_by_alias(model_name, PRODUCTION_ALIAS)
     except Exception:
         return None
+    if version.run_id is None:
+        return None
     run = client.get_run(version.run_id)
     return run.data.metrics.get("auc")
 

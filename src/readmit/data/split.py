@@ -16,9 +16,7 @@ def make_splits(
     reference_size: int = REFERENCE_SIZE,
 ) -> dict[str, pd.DataFrame]:
     """Stratified train/test split plus a reference sample drawn from train."""
-    train, test = train_test_split(
-        df, test_size=test_size, random_state=seed, stratify=df[TARGET]
-    )
+    train, test = train_test_split(df, test_size=test_size, random_state=seed, stratify=df[TARGET])
     reference = train.sample(n=min(reference_size, len(train)), random_state=seed)
     return {
         "train": train.reset_index(drop=True),

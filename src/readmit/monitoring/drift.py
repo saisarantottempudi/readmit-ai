@@ -33,20 +33,12 @@ def compute_drift(reference: pd.DataFrame, current: pd.DataFrame) -> DriftResult
     report.run(reference_data=ref, current_data=cur)
 
     summary = next(
-        m["result"]
-        for m in report.as_dict()["metrics"]
-        if m["metric"] == "DatasetDriftMetric"
+        m["result"] for m in report.as_dict()["metrics"] if m["metric"] == "DatasetDriftMetric"
     )
     table = next(
-        m["result"]
-        for m in report.as_dict()["metrics"]
-        if m["metric"] == "DataDriftTable"
+        m["result"] for m in report.as_dict()["metrics"] if m["metric"] == "DataDriftTable"
     )
-    drifted = [
-        name
-        for name, info in table["drift_by_columns"].items()
-        if info["drift_detected"]
-    ]
+    drifted = [name for name, info in table["drift_by_columns"].items() if info["drift_detected"]]
     return DriftResult(
         share_drifted=float(summary["share_of_drifted_columns"]),
         drifted_columns=drifted,

@@ -1,0 +1,51 @@
+{
+  "title": "readmit-ai serving",
+  "uid": "readmit-serving",
+  "schemaVersion": 39,
+  "refresh": "30s",
+  "time": {"from": "now-1h", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Predictions per band (rate/5m)",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [
+        {
+          "expr": "sum by (band) (rate(readmit_predictions_total[5m]))",
+          "legendFormat": "{{band}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Prediction latency p95 (s)",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(readmit_prediction_latency_seconds_bucket[5m]))",
+          "legendFormat": "p95"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Total predictions",
+      "gridPos": {"h": 6, "w": 6, "x": 0, "y": 8},
+      "targets": [{"expr": "sum(readmit_predictions_total)"}]
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "High-risk share",
+      "gridPos": {"h": 6, "w": 6, "x": 6, "y": 8},
+      "targets": [
+        {
+          "expr": "sum(readmit_predictions_total{band=\"high\"}) / sum(readmit_predictions_total)"
+        }
+      ]
+    }
+  ]
+}

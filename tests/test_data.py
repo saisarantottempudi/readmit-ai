@@ -29,9 +29,7 @@ class TestSchema:
 class TestClean:
     def test_target_built_from_readmitted(self, raw_frame):
         cleaned = clean(raw_frame)
-        kept = raw_frame[
-            ~raw_frame["discharge_disposition_id"].isin(LEAKAGE_DISPOSITIONS)
-        ]
+        kept = raw_frame[~raw_frame["discharge_disposition_id"].isin(LEAKAGE_DISPOSITIONS)]
         expected_rate = (kept["readmitted"] == "<30").mean()
         assert cleaned[TARGET].mean() == pytest.approx(expected_rate)
 

@@ -11,8 +11,8 @@ LEAKAGE_DISPOSITIONS = {11, 13, 14, 19, 20, 21}
 DROP_COLUMNS = [
     "encounter_id",
     "patient_nbr",
-    "weight",          # ~97% missing
-    "payer_code",      # ~40% missing, not clinical
+    "weight",  # ~97% missing
+    "payer_code",  # ~40% missing, not clinical
     "medical_specialty",  # ~50% missing
     "diag_2",
     "diag_3",
