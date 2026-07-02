@@ -30,3 +30,4 @@ reports/*.html
 .DS_Store
 .idea/
 .vscode/
+mlflow.db
