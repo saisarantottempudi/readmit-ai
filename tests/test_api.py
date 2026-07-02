@@ -92,7 +92,14 @@ class TestHealthAndMetrics:
 class TestRiskBand:
     @pytest.mark.parametrize(
         ("score", "band"),
-        [(0.0, "low"), (0.29, "low"), (0.3, "medium"), (0.59, "medium"), (0.6, "high"), (1.0, "high")],
+        [
+            (0.0, "low"),
+            (0.29, "low"),
+            (0.3, "medium"),
+            (0.59, "medium"),
+            (0.6, "high"),
+            (1.0, "high"),
+        ],
     )
     def test_boundaries(self, score, band):
         assert risk_band(score) == band
