@@ -22,12 +22,12 @@ flowchart LR
         I[ingest flow<br/>pandera validation] --> T[train flow<br/>XGBoost + SHAP]
         M[monitor flow<br/>Evidently drift]
     end
-    T -->|log + register| R[(MLflow registry<br/>champion/challenger)]
-    R -->|models:/readmit@production| A[FastAPI<br/>/predict + SHAP factors]
-    A -->|scoring log| M
-    M -->|drift > threshold| T
-    A -->|/metrics| P[Prometheus] --> G[Grafana]
-    M -->|HTML reports| E[Evidently reports]
+    T -->|"log + register"| R[("MLflow registry<br/>champion/challenger")]
+    R -->|"models:/readmit@production"| A["FastAPI<br/>/predict + SHAP factors"]
+    A -->|"scoring log"| M
+    M -->|"drift above threshold"| T
+    A -->|"/metrics"| P[Prometheus] --> G[Grafana]
+    M -->|"HTML reports"| E[Evidently reports]
 ```
 
 Eight containers: `api`, `mlflow`, `prefect`, `postgres`, `prometheus`, `grafana`,
